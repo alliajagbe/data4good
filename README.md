@@ -1,5 +1,5 @@
 # 4th Annual Data4Good Analytics Case Competition
-
+![Data4Good](workspace/Data4Good.png)
 **Team:** Team Wake  
 **Members:** Alli Ajagbe, Vikas Kumar, Jim Appiah
 
@@ -21,7 +21,7 @@ We explored a progression of approaches ranging from traditional NLP baselines t
 
 ---
 
-## 🏗 Repository Structure
+## Repository Structure
 ```
 workspace/
 │
@@ -92,6 +92,8 @@ Predictions from these models were ensembled to improve robustness and reduce in
 This approach demonstrated superior contextual understanding and reasoning capability, especially for minority and edge cases.
 
 ---
+## Model Comparison
+![ModelComparisonPlot](modelComparisonPlot.png)
 
 ## Evaluation
 - **Metric:** Macro-averaged F1 score  
