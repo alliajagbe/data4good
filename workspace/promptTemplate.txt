@@ -1,0 +1,133 @@
+You are a text classification system. Your task is to classify AI-generated answers into exactly one of three categories: FACTUAL, CONTRADICTION, or IRRELEVANT.
+
+CLASSIFICATION DEFINITIONS:
+
+FACTUAL: The answer correctly addresses the question. If context is provided, the answer must be supported by that context. If no context is provided, the answer must be a reasonable and factually correct response.
+
+CONTRADICTION: The answer addresses the question's topic but provides factually incorrect information. This includes wrong entities, wrong numbers, explicit negations that contradict facts, or subtle factual errors.
+
+IRRELEVANT: The answer discusses a completely different topic from the question. The answer may share some words with the question but addresses an unrelated subject matter.
+
+DECISION FRAMEWORK:
+
+Step 1: Check if the answer addresses the same topic as the question
+- If the answer discusses a completely unrelated subject, classify as IRRELEVANT
+- If the answer addresses the question's topic, proceed to Step 2
+
+Step 2: Evaluate context availability
+- If context is provided and non-empty (more than 50 characters):
+  * If context supports the answer, classify as FACTUAL
+  * If context contradicts the answer, classify as CONTRADICTION
+  * If context does not provide information to verify the answer, classify as IRRELEVANT
+
+- If context is empty or missing:
+  * Use factual knowledge to evaluate the answer
+  * If the answer is factually correct, classify as FACTUAL
+  * If the answer contains factual errors, classify as CONTRADICTION
+  * If uncertain about factual accuracy, default to FACTUAL
+
+Step 3: Check for contradiction indicators
+- Explicit negations: "did NOT", "was NOT", "were NOT"
+- Wrong entity names or numbers
+- Dates or facts that contradict known information
+- Overgeneralizations that misrepresent context
+
+DETAILED EXAMPLES:
+
+IRRELEVANT EXAMPLES:
+
+Example 1:
+Question: What overabundance of themes did Kanye criticize early in his career?
+Context: West's middle-class background, flamboyant fashion sense and outspokenness have additionally set him apart from other rappers. Early in his career, he was among the first rappers to publicly criticize the preponderance of homophobia in hip hop...
+Answer: Apple Inc. has its European headquarters located in Cork.
+Classification: IRRELEVANT
+Reason: Answer discusses Apple's headquarters, which is completely unrelated to Kanye's career or criticism.
+
+Example 2:
+Question: What sort of capacitors are used on the second winding of a squirrel cage motor?
+Context: In single phase squirrel cage motors, the primary winding within the motor housing is not capable of starting a rotational motion on the rotor...
+Answer: Plymouth twinned with Plymouth in the United States in the year 2001.
+Classification: IRRELEVANT
+Reason: Answer discusses city twinning arrangements, completely unrelated to motor capacitors.
+
+Example 3:
+Question: Who introduced the term biological diversity to the scientific community?
+Context: (empty)
+Answer: Another name for the double-axe is labrys.
+Classification: IRRELEVANT
+Reason: Answer discusses archaeological terminology, unrelated to biological diversity.
+
+CONTRADICTION EXAMPLES:
+
+Example 1:
+Question: What did the Greeks offer to the Ottoman Empire that was a superb benefit?
+Context: The roots of Greek success in the Ottoman Empire can be traced to the Greek tradition of education and commerce...
+Answer: The Greek tradition of isolationism and economic stagnation.
+Classification: CONTRADICTION
+Reason: Context states "education and commerce" but answer states "isolationism and economic stagnation", which directly contradicts.
+
+Example 2:
+Question: What is the concentration of uranium in sea water?
+Context: The concentration of uranium in soil ranges from 0.7 to 11 parts per million, and its concentration in sea water is 3 parts per billion.
+Answer: The concentration of uranium in sea water is 300 parts per million.
+Classification: CONTRADICTION
+Reason: Context states 3 parts per billion, but answer states 300 parts per million, which is incorrect.
+
+Example 3:
+Question: What does FDNY stand for?
+Context: (empty)
+Answer: New York City Police Department
+Classification: CONTRADICTION
+Reason: FDNY stands for Fire Department of New York, not Police Department.
+
+Example 4:
+Question: When was Urartu created?
+Context: Urartu was established in 860 BC...
+Answer: Urartu was created in 1400 BC.
+Classification: CONTRADICTION
+Reason: Context states 860 BC, answer states 1400 BC, which is incorrect.
+
+FACTUAL EXAMPLES:
+
+Example 1:
+Question: How many elections are required to assend a bill that the monarch has vetoed?
+Context: If a Bill has been passed unaltered by two sessions of the Storting, constituted after two separate successive elections...
+Answer: Two separate successive elections are required to assent a bill that the monarch has vetoed.
+Classification: FACTUAL
+Reason: Answer accurately reflects information in the context.
+
+Example 2:
+Question: What is present in all non-placental mammals?
+Context: (empty)
+Answer: All non-placental mammals possess epipubic bones.
+Classification: FACTUAL
+Reason: Even without context, this is a factually accurate biological statement.
+
+Example 3:
+Question: Cape Canaveral Air Force Station is located in what state?
+Context: (empty)
+Answer: Cape Canaveral Air Force Station is located in the state of Florida.
+Classification: FACTUAL
+Reason: Factually correct geographic information.
+
+IMPORTANT NOTES:
+
+1. Empty context does NOT automatically mean IRRELEVANT. Many empty context cases are FACTUAL if the answer reasonably addresses the question.
+
+2. Sharing some words with the question does NOT make an answer relevant. The answer must address the actual topic.
+
+3. Paraphrasing is acceptable for FACTUAL classification. The answer does not need to use exact words from context.
+
+4. When context contradicts the answer, always classify as CONTRADICTION, even if the answer uses similar words to the context.
+
+5. For empty context cases, use factual knowledge to determine if the answer is correct or contains errors.
+
+CLASSIFICATION TASK:
+
+Question: {question}
+Context: {context}
+Answer: {answer}
+
+Based on the definitions, framework, and examples above, classify this answer as exactly one of: FACTUAL, CONTRADICTION, or IRRELEVANT.
+
+Output only the classification word with no additional text.
