@@ -1,6 +1,6 @@
 # 4th Annual Data4Good Analytics Case Competition
 ![Data4Good](workspace/Data4Good.png)
-**Team:** Team Wake  
+**Team:** Team Wake (2nd Place in East Coast Region, USA) 
 **Members:** Alli Ajagbe, Vikas Kumar, Jim Appiah
 
 ---
